@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>تحدي القيمة المنزلية | الصف الثاني</title>
+<style>
+  :root{
+    --pink:#d92f86;
+    --pink2:#f6b6d6;
+    --purple:#6b2ca0;
+    --gold:#d9a51f;
+    --ink:#1f2a44;
+    --soft:#fff7fb;
+    --blue:#4b8bd8;
+    --green:#2f9b72;
+    --card:#ffffff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: "Tahoma","Arial",sans-serif;
+    background: linear-gradient(180deg,#fff9fc 0%,#f9f1ff 100%);
+    color:var(--ink);
+    min-height:100vh;
+  }
+  .wrap{max-width:980px;margin:auto;padding:24px}
+  .hero{
+    background:linear-gradient(135deg,#fff 0%,#fff4fa 55%,#f6efff 100%);
+    border:2px solid #f3c7df;
+    border-radius:28px;
+    padding:26px;
+    box-shadow:0 14px 34px rgba(95,42,107,.12);
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero:before,.hero:after{
+    content:"";
+    position:absolute;border-radius:50%;filter:blur(1px);opacity:.22
+  }
+  .hero:before{width:180px;height:180px;background:#f08fc0;left:-60px;top:-40px}
+  .hero:after{width:160px;height:160px;background:#cdb0ff;right:-50px;bottom:-50px}
+  .crown{font-size:58px;line-height:1}
+  h1{margin:8px 0 4px;color:var(--purple);font-size:clamp(30px,5vw,52px)}
+  .subtitle{font-size:20px;font-weight:700;color:var(--pink)}
+  .school{margin-top:10px;font-size:15px}
+  .tag{
+    display:inline-block;margin-top:14px;padding:9px 16px;background:#fff;border:1px solid #efd2e2;
+    border-radius:999px;font-weight:700
+  }
+
+  .panel{
+    margin-top:20px;background:var(--card);border-radius:24px;padding:22px;
+    box-shadow:0 10px 28px rgba(45,36,68,.08);border:1px solid #eee;
+  }
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  @media(max-width:700px){.grid{grid-template-columns:1fr}}
+  label{font-weight:700;display:block;margin-bottom:7px}
+  input,select{
+    width:100%;padding:14px;border:1.5px solid #ddd;border-radius:14px;font-size:17px;background:#fff
+  }
+  button{
+    border:0;border-radius:14px;padding:14px 18px;font-size:17px;font-weight:800;cursor:pointer
+  }
+  .primary{background:linear-gradient(90deg,var(--pink),var(--purple));color:white}
+  .secondary{background:#f3edf8;color:var(--purple)}
+  .success{background:#e9f8f2;color:#16704d}
+  .danger{background:#fff0f4;color:#a71e58}
+  .btnrow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+  .hidden{display:none !important}
+
+  .progressbox{margin:16px 0}
+  .progresshead{display:flex;justify-content:space-between;font-weight:700;margin-bottom:6px}
+  .bar{height:14px;background:#efe7f2;border-radius:20px;overflow:hidden}
+  .bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--gold));transition:.25s}
+
+  .qcard{
+    background:#fff;border:1px solid #eee;border-radius:22px;padding:22px;
+    box-shadow:0 8px 22px rgba(0,0,0,.05)
+  }
+  .skill{
+    display:inline-block;background:#fff2f8;color:var(--pink);padding:7px 12px;border-radius:999px;
+    font-weight:700;margin-bottom:10px
+  }
+  .question{font-size:26px;font-weight:800;line-height:1.65;text-align:center;margin:10px 0 20px}
+  .choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  @media(max-width:600px){.choices{grid-template-columns:1fr}}
+  .choice{
+    background:#fafafa;border:2px solid #ece7f0;border-radius:16px;padding:16px;font-size:21px;
+    transition:.15s
+  }
+  .choice:hover{transform:translateY(-1px);border-color:#d8b7e9}
+  .choice.correct{background:#edf9f4;border-color:#55aa84}
+  .choice.wrong{background:#fff0f3;border-color:#df789c}
+  .feedback{min-height:40px;text-align:center;font-size:20px;font-weight:800;margin-top:14px}
+  .mini-input{max-width:360px;margin:auto}
+  .mini-input input{text-align:center;font-size:24px}
+  .numberline{
+    display:flex;justify-content:center;gap:12px;align-items:center;flex-wrap:wrap;font-size:28px;font-weight:800
+  }
+  .blockten{display:inline-flex;gap:5px}
+  .ten{width:14px;height:62px;background:#f59b4a;border-radius:3px}
+  .one{width:14px;height:14px;background:#7047c8;border-radius:50%;display:inline-block}
+  .ones{display:flex;gap:5px;flex-wrap:wrap;max-width:120px}
+  .result{
+    text-align:center;padding:18px
+  }
+  .score{font-size:64px;font-weight:900;color:var(--purple)}
+  .badge{font-size:58px}
+  .certificate{
+    width:min(100%,900px);margin:18px auto;background:#fff;
+    border:8px double var(--gold);border-radius:22px;padding:34px 28px;text-align:center;
+    box-shadow:0 10px 28px rgba(0,0,0,.08);position:relative;overflow:hidden
+  }
+  .certificate:before,.certificate:after{
+    content:"✦";position:absolute;font-size:90px;color:#f2d879;opacity:.22
+  }
+  .certificate:before{right:18px;top:5px}.certificate:after{left:18px;bottom:0}
+  .cert-title{font-size:44px;color:var(--purple);font-weight:900;margin:0}
+  .cert-sub{font-size:22px;color:var(--pink);font-weight:800;margin:8px}
+  .student-name{font-size:36px;font-weight:900;color:#1f2a44;margin:18px 0}
+  .cert-text{font-size:21px;line-height:1.9}
+  .signs{display:flex;justify-content:space-around;gap:20px;margin-top:28px;flex-wrap:wrap}
+  .sign{min-width:240px}
+  .foot{margin-top:22px;font-size:14px;color:#666}
+  .stars{font-size:30px;letter-spacing:4px;color:var(--gold)}
+  @media print{
+    body *{visibility:hidden}
+    #certificate,#certificate *{visibility:visible}
+    #certificate{position:absolute;inset:0;margin:auto;box-shadow:none}
+    .no-print{display:none!important}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section id="startScreen">
+    <div class="hero">
+      <div class="crown">👑</div>
+      <h1>تحدي القيمة المنزلية</h1>
+      <div class="subtitle">التدريب التفاعلي | الصف الثاني الابتدائي</div>
+      <div class="school">الابتدائية الأولى بالتحلية</div>
+      <div class="tag">أستعد • أتقن • أتحدى • أجمع النقاط</div>
+    </div>
+
+    <div class="panel">
+      <div class="grid">
+        <div>
+          <label for="studentName">اسم الطالب/ـة</label>
+          <input id="studentName" placeholder="اكتب الاسم الثلاثي" />
+        </div>
+        <div>
+          <label for="gender">الفئة</label>
+          <select id="gender">
+            <option value="girl">طالبة</option>
+            <option value="boy">طالب</option>
+          </select>
+        </div>
+      </div>
+      <div class="btnrow">
+        <button class="primary" onclick="startChallenge()">ابدأ التحدي 🚀</button>
+      </div>
+      <div class="foot" style="text-align:center">
+        معلمة الرياضيات | أ. مرام الوافي &nbsp; • &nbsp; مديرة المدرسة | أ. هدى الصبحي
+      </div>
+    </div>
+  </section>
+
+  <section id="quizScreen" class="hidden">
+    <div class="panel">
+      <div class="progressbox">
+        <div class="progresshead">
+          <span id="qCounter">السؤال ١ من ١٠</span>
+          <span id="points">النقاط: ٠</span>
+        </div>
+        <div class="bar"><div id="barFill"></div></div>
+      </div>
+      <div id="questionHost" class="qcard"></div>
+      <div class="btnrow">
+        <button id="nextBtn" class="primary hidden" onclick="nextQuestion()">السؤال التالي ←</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="resultScreen" class="hidden">
+    <div class="panel result">
+      <div class="badge" id="resultBadge">🏆</div>
+      <h2 id="resultTitle">أحسنت!</h2>
+      <div class="score" id="scoreText">١٠ / ١٠</div>
+      <p id="resultMessage" style="font-size:20px;line-height:1.8"></p>
+
+      <div id="certificateWrap" class="hidden">
+        <div id="certificate" class="certificate">
+          <div class="stars">★ ★ ★</div>
+          <h2 class="cert-title">شهادة إتقان</h2>
+          <div class="cert-sub">تحدي القيمة المنزلية</div>
+          <p class="cert-text">تُمنح هذه الشهادة إلى</p>
+          <div class="student-name" id="certName"></div>
+          <p class="cert-text" id="certBody"></p>
+          <div class="signs">
+            <div class="sign"><strong>معلمة الرياضيات</strong><br>أ. مرام الوافي</div>
+            <div class="sign"><strong>مديرة المدرسة</strong><br>أ. هدى الصبحي</div>
+          </div>
+          <div class="foot">الابتدائية الأولى بالتحلية</div>
+        </div>
+        <div class="btnrow no-print">
+          <button class="success" onclick="window.print()">طباعة / حفظ الشهادة 🖨️</button>
+        </div>
+      </div>
+
+      <div class="btnrow">
+        <button class="secondary" onclick="restartChallenge()">تدريب جديد 🔁</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+const AR = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+const toArabic = (n)=> String(n).replace(/\d/g,d=>AR[d]);
+
+const numberWords = {
+  10:'عشرة',11:'أحد عشر',12:'اثنا عشر',13:'ثلاثة عشر',14:'أربعة عشر',15:'خمسة عشر',
+  16:'ستة عشر',17:'سبعة عشر',18:'ثمانية عشر',19:'تسعة عشر',20:'عشرون',
+  21:'واحد وعشرون',22:'اثنان وعشرون',23:'ثلاثة وعشرون',24:'أربعة وعشرون',25:'خمسة وعشرون',
+  26:'ستة وعشرون',27:'سبعة وعشرون',28:'ثمانية وعشرون',29:'تسعة وعشرون',30:'ثلاثون',
+  31:'واحد وثلاثون',32:'اثنان وثلاثون',33:'ثلاثة وثلاثون',34:'أربعة وثلاثون',35:'خمسة وثلاثون',
+  36:'ستة وثلاثون',37:'سبعة وثلاثون',38:'ثمانية وثلاثون',39:'تسعة وثلاثون',40:'أربعون',
+  41:'واحد وأربعون',42:'اثنان وأربعون',43:'ثلاثة وأربعون',44:'أربعة وأربعون',45:'خمسة وأربعون',
+  46:'ستة وأربعون',47:'سبعة وأربعون',48:'ثمانية وأربعون',49:'تسعة وأربعون',50:'خمسون',
+  51:'واحد وخمسون',52:'اثنان وخمسون',53:'ثلاثة وخمسون',54:'أربعة وخمسون',55:'خمسة وخمسون',
+  56:'ستة وخمسون',57:'سبعة وخمسون',58:'ثمانية وخمسون',59:'تسعة وخمسون',60:'ستون',
+  61:'واحد وستون',62:'اثنان وستون',63:'ثلاثة وستون',64:'أربعة وستون',65:'خمسة وستون',
+  66:'ستة وستون',67:'سبعة وستون',68:'ثمانية وستون',69:'تسعة وستون',70:'سبعون',
+  71:'واحد وسبعون',72:'اثنان وسبعون',73:'ثلاثة وسبعون',74:'أربعة وسبعون',75:'خمسة وسبعون',
+  76:'ستة وسبعون',77:'سبعة وسبعون',78:'ثمانية وسبعون',79:'تسعة وسبعون',80:'ثمانون',
+  81:'واحد وثمانون',82:'اثنان وثمانون',83:'ثلاثة وثمانون',84:'أربعة وثمانون',85:'خمسة وثمانون',
+  86:'ستة وثمانون',87:'سبعة وثمانون',88:'ثمانية وثمانون',89:'تسعة وثمانون',90:'تسعون',
+  91:'واحد وتسعون',92:'اثنان وتسعون',93:'ثلاثة وتسعون',94:'أربعة وتسعون',95:'خمسة وتسعون',
+  96:'ستة وتسعون',97:'سبعة وتسعون',98:'ثمانية وتسعون',99:'تسعة وتسعون',100:'مئة'
+};
+
+let questions=[], current=0, score=0, answered=false, student='', gender='girl';
+
+function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function uniqueChoices(correct, candidates){
+  let arr=[correct,...candidates.filter(x=>x!==correct)];
+  return shuffle([...new Set(arr)]).slice(0,4);
+}
+function q(skill, prompt, correct, choices, type='choice', extra={}) {
+  return {skill,prompt,correct,choices,type,...extra};
+}
+
+function generateBank(){
+  const bank=[];
+
+  for(let i=0;i<8;i++){
+    let n=rand(10,99), tens=Math.floor(n/10), ones=n%10;
+    bank.push(q('الآحاد والعشرات',`في العدد ${toArabic(n)}، كم عدد العشرات؟`,String(tens),
+      uniqueChoices(String(tens),[String(rand(1,9)),String(ones),String(rand(0,9))])));
+    bank.push(q('الآحاد والعشرات',`في العدد ${toArabic(n)}، ما رقم الآحاد؟`,String(ones),
+      uniqueChoices(String(ones),[String(tens),String(rand(0,9)),String(rand(0,9))])));
+  }
+
+  for(let i=0;i<8;i++){
+    let n=rand(10,99), tens=Math.floor(n/10), ones=n%10;
+    let place = Math.random()<.5 ? 'العشرات':'الآحاد';
+    let ans = place==='العشرات'? tens*10:ones;
+    bank.push(q('القيمة المنزلية',`ما القيمة المنزلية للرقم ${toArabic(place==='العشرات'?tens:ones)} في العدد ${toArabic(n)}؟`,
+      String(ans),uniqueChoices(String(ans),[String(tens),String(ones),String(rand(1,9)*10)])));
+  }
+
+  for(let i=0;i<7;i++){
+    let n=rand(10,99);
+    bank.push(q('قراءة الأعداد وكتابتها',`اختر كتابة العدد ${toArabic(n)} بالكلمات:`,numberWords[n],
+      uniqueChoices(numberWords[n],shuffle(Object.values(numberWords)).slice(0,5))));
+  }
+
+  for(let i=0;i<7;i++){
+    let a=rand(10,99),b=rand(10,99); while(b===a)b=rand(10,99);
+    let ans=a>b?'>':'<';
+    bank.push(q('مقارنة الأعداد',`اختر الرمز الصحيح: ${toArabic(a)}  ☐  ${toArabic(b)}`,ans,['>','<','=']));
+  }
+
+  for(let i=0;i<7;i++){
+    let nums=shuffle([rand(10,35),rand(36,65),rand(66,99)]);
+    let asc=[...nums].sort((a,b)=>a-b);
+    let desc=[...nums].sort((a,b)=>b-a);
+    if(Math.random()<.5){
+      let ans=asc.map(toArabic).join(' ، ');
+      bank.push(q('ترتيب الأعداد',`رتب الأعداد تصاعديًا: ${nums.map(toArabic).join(' ، ')}`,ans,
+        uniqueChoices(ans,[desc.map(toArabic).join(' ، '),shuffle(nums).map(toArabic).join(' ، '),shuffle(nums).map(toArabic).join(' ، ')])));
+    }else{
+      let ans=desc.map(toArabic).join(' ، ');
+      bank.push(q('ترتيب الأعداد',`رتب الأعداد تنازليًا: ${nums.map(toArabic).join(' ، ')}`,ans,
+        uniqueChoices(ans,[asc.map(toArabic).join(' ، '),shuffle(nums).map(toArabic).join(' ، '),shuffle(nums).map(toArabic).join(' ، ')])));
+    }
+  }
+
+  for(let i=0;i<7;i++){
+    let start=rand(10,70), step=[2,5,10][rand(0,2)];
+    let seq=[start,start+step,start+2*step,start+3*step];
+    let ans=start+4*step;
+    bank.push(q('الأنماط',`أكمل النمط: ${seq.map(toArabic).join(' ، ')} ، ؟`,String(ans),
+      uniqueChoices(String(ans),[String(ans+step),String(ans-step),String(ans+1)])));
+  }
+
+  for(let i=0;i<6;i++){
+    let n=rand(11,89);
+    let ans=n+10;
+    bank.push(q('لوحة المئة',`على لوحة المئة، ما العدد الذي يقع أسفل ${toArabic(n)} مباشرة؟`,String(ans),
+      uniqueChoices(String(ans),[String(n-10),String(n+1),String(n-1)])));
+  }
+
+  for(let i=0;i<6;i++){
+    let actual=rand(12,48);
+    let nearest=Math.round(actual/10)*10;
+    bank.push(q('تقدير الكميات',`يوجد تقريبًا ${toArabic(actual)} كرة صغيرة. ما أفضل تقدير لأقرب عشرة؟`,String(nearest),
+      uniqueChoices(String(nearest),[String(nearest+10),String(Math.max(0,nearest-10)),String(actual)])));
+  }
+
+  for(let i=0;i<6;i++){
+    let tens=rand(1,8), ones=rand(0,9), n=tens*10+ones;
+    bank.push(q('تمثيل العدد',`عدد مكوّن من ${toArabic(tens)} عشرات و${toArabic(ones)} آحاد. ما العدد؟`,String(n),
+      uniqueChoices(String(n),[String(ones*10+tens),String(tens+ones),String(n+10)])));
+  }
+
+  return bank;
+}
+
+function pickQuestions(){
+  const all=generateBank();
+  const groups={};
+  all.forEach(x=>(groups[x.skill]??=[]).push(x));
+  const wanted=['الآحاد والعشرات','القيمة المنزلية','قراءة الأعداد وكتابتها','مقارنة الأعداد','ترتيب الأعداد','الأنماط','لوحة المئة','تقدير الكميات','تمثيل العدد'];
+  let selected=wanted.map(s=>shuffle(groups[s])[0]);
+  selected.push(shuffle(all)[0]);
+  return shuffle(selected);
+}
+
+function startChallenge(){
+  const name=document.getElementById('studentName').value.trim();
+  if(!name){alert('فضلاً اكتبي/اكتب الاسم أولًا.');return}
+  student=name;
+  gender=document.getElementById('gender').value;
+  questions=pickQuestions(); current=0; score=0; answered=false;
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.add('hidden');
+  document.getElementById('quizScreen').classList.remove('hidden');
+  renderQuestion();
+}
+
+function renderQuestion(){
+  answered=false;
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('qCounter').textContent=`السؤال ${toArabic(current+1)} من ${toArabic(questions.length)}`;
+  document.getElementById('points').textContent=`النقاط: ${toArabic(score)}`;
+  document.getElementById('barFill').style.width=`${(current/questions.length)*100}%`;
+
+  const x=questions[current];
+  let choices=shuffle(x.choices).map(c=>`<button class="choice" onclick="answerChoice(this,'${escapeQuotes(c)}')">${c}</button>`).join('');
+  document.getElementById('questionHost').innerHTML=`
+    <div class="skill">${x.skill}</div>
+    <div class="question">${x.prompt}</div>
+    <div class="choices">${choices}</div>
+    <div id="feedback" class="feedback"></div>
+  `;
+}
+function escapeQuotes(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
+
+function answerChoice(btn,val){
+  if(answered)return;
+  answered=true;
+  const x=questions[current];
+  const ok=val===x.correct;
+  if(ok){score++;btn.classList.add('correct');document.getElementById('feedback').textContent='أحسنت! إجابة صحيحة ⭐';}
+  else{
+    btn.classList.add('wrong');
+    [...document.querySelectorAll('.choice')].forEach(b=>{
+      if(b.textContent.trim()===String(x.correct))b.classList.add('correct')
+    });
+    document.getElementById('feedback').textContent=`الإجابة الصحيحة: ${x.correct}`;
+  }
+  document.getElementById('points').textContent=`النقاط: ${toArabic(score)}`;
+  document.getElementById('nextBtn').classList.remove('hidden');
+}
+
+function nextQuestion(){
+  current++;
+  if(current>=questions.length){finishChallenge();return}
+  renderQuestion();
+}
+
+function finishChallenge(){
+  document.getElementById('quizScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
+  document.getElementById('barFill').style.width='100%';
+  document.getElementById('scoreText').textContent=`${toArabic(score)} / ${toArabic(questions.length)}`;
+  const perfect=score===questions.length;
+  const cert=document.getElementById('certificateWrap');
+
+  if(perfect){
+    document.getElementById('resultBadge').textContent='👑';
+    document.getElementById('resultTitle').textContent=gender==='girl'?'مبارك يا ملكة القيمة المنزلية!':'مبارك يا ملك القيمة المنزلية!';
+    document.getElementById('resultMessage').textContent='حققت الدرجة الكاملة وأظهرت إتقانًا مميزًا. تم إنشاء شهادة الإتقان تلقائيًا.';
+    document.getElementById('certName').textContent=student;
+    document.getElementById('certBody').textContent=
+      gender==='girl'
+      ? 'لاجتيازها تحدي القيمة المنزلية وتحقيقها الدرجة الكاملة، وإظهارها إتقانًا متميزًا في مهارات الأعداد والقيمة المنزلية.'
+      : 'لاجتيازه تحدي القيمة المنزلية وتحقيقه الدرجة الكاملة، وإظهاره إتقانًا متميزًا في مهارات الأعداد والقيمة المنزلية.';
+    cert.classList.remove('hidden');
+  }else{
+    document.getElementById('resultBadge').textContent='🌟';
+    document.getElementById('resultTitle').textContent='تقدم جميل!';
+    document.getElementById('resultMessage').textContent='أعد التحدي مرة أخرى لتحقق الدرجة الكاملة وتحصل على شهادة الإتقان.';
+    cert.classList.add('hidden');
+  }
+}
+
+function restartChallenge(){
+  questions=pickQuestions();current=0;score=0;answered=false;
+  document.getElementById('resultScreen').classList.add('hidden');
+  document.getElementById('quizScreen').classList.remove('hidden');
+  renderQuestion();
+}
+</script>
+</body>
+</html>
